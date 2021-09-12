@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsapp/bloc/everything_news/news_bloc.dart';
 
 import 'package:newsapp/models/news_models.dart';
+import 'package:newsapp/pages/detail_everything.dart';
 import 'package:newsapp/widgets/loading.dart';
 
 class EverythingNews extends StatefulWidget {
@@ -12,11 +13,21 @@ class EverythingNews extends StatefulWidget {
 
 class _EverythingNewsState extends State<EverythingNews> {
   NewsBloc _newsBloc = NewsBloc();
-
   @override
   void initState() {
     super.initState();
     _newsBloc.add(GetNewsList());
+  }
+
+  void _showNewsArticleDetail(BuildContext context, Article nm) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) {
+          return DetailNews(detailNews: nm);
+        },
+      ),
+    );
   }
 
   @override
@@ -57,57 +68,52 @@ class _EverythingNewsState extends State<EverythingNews> {
           itemCount: news.articles.length,
           itemBuilder: (context, i) {
             final dataNews = news.articles[i];
-            return Card(
-              shadowColor: Colors.black,
-              elevation: 8,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Container(
-                width: 300,
-                height: 100,
-                child: Column(
-                  children: [
-                    Expanded(
-                        flex: 2,
-                        child: ClipRRect(
-                          child: Image.network(
-                            dataNews.urlToImage,
-                            fit: BoxFit.cover,
-                          ),
-                        )),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(left: 8, right: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              dataNews.title,
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              maxLines: 2,
+
+            return InkWell(
+              onTap: () {
+                _showNewsArticleDetail(context, dataNews);
+              },
+              child: Card(
+                shadowColor: Colors.black,
+                elevation: 8,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Container(
+                  width: 300,
+                  height: 100,
+                  child: Column(
+                    children: [
+                      Expanded(
+                          flex: 3,
+                          child: ClipRRect(
+                            child: Image.network(
+                              dataNews.urlToImage,
+                              fit: BoxFit.cover,
                             ),
-                            SizedBox(height: 15),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.calendar_today,
-                                  color: Colors.blueAccent,
+                          )),
+                      SizedBox(height: 20),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 8, right: 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                dataNews.title,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(dataNews.publishedAt)
-                              ],
-                            )
-                          ],
+                                maxLines: 2,
+                              ),
+                              SizedBox(height: 15),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
