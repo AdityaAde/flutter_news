@@ -1,4 +1,22 @@
+
+
+
+
+
+
+
 # newsapp
+
+
+
+
+
+
+
+
+
+
+
 
 
 ![appnews](https://user-images.githubusercontent.com/69036818/133097228-712eea60-fa1a-48fd-90f3-c7572b21d65a.png)
