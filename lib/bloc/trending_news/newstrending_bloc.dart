@@ -16,11 +16,8 @@ class NewstrendingBloc extends Bloc<NewstrendingEvent, NewstrendingState> {
   Stream<NewstrendingState> mapEventToState(NewstrendingEvent event) async* {
     if (event is GetDataTrendingNews) {
       try {
-        print('1');
         yield NewstrendingLoading();
-        print('2');
         final dataNews = await apiProvider.trendingNewsApi();
-        print('3');
         print(dataNews.status);
         yield NewstrendingLoaded(dataNews);
       } catch (e) {

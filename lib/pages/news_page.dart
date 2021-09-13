@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:newsapp/widgets/everything_news.dart';
 import 'package:newsapp/widgets/trending_news.dart';
 
@@ -8,10 +9,12 @@ class NewsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'News Today',
+          'Flutter News',
+          style: TextStyle(color: Colors.blue),
         ),
         elevation: 0,
         centerTitle: true,
+        backgroundColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         child: Container(

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsapp/bloc/trending_news/newstrending_bloc.dart';
 import 'package:newsapp/models/trending_news.dart';
 import 'package:newsapp/widgets/loading.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TrendingNews extends StatefulWidget {
   @override
@@ -53,53 +54,59 @@ class _TrendingNewsState extends State<TrendingNews> {
           itemCount: news.articles.length,
           itemBuilder: (context, i) {
             final dataNews = news.articles[i];
-            return Card(
-              shadowColor: Colors.black,
-              elevation: 8,
-              child: Container(
-                width: double.infinity,
-                height: 150,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            dataNews.urlToImage,
-                            fit: BoxFit.cover,
-                            height: 140,
-                            width: 100,
+            return InkWell(
+              onTap: () async {
+                await launch(dataNews.url,
+                    forceWebView: true, enableJavaScript: true);
+              },
+              child: Card(
+                shadowColor: Colors.black,
+                elevation: 8,
+                child: Container(
+                  width: double.infinity,
+                  height: 150,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              dataNews.urlToImage,
+                              fit: BoxFit.cover,
+                              height: 140,
+                              width: 100,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              dataNews.title,
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
-                            SizedBox(height: 10),
-                            Text(dataNews.description, maxLines: 3),
-                            SizedBox(height: 10),
-                            Text(
-                              dataNews.source.name,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )
-                          ],
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                dataNews.title,
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ),
+                              SizedBox(height: 10),
+                              Text(dataNews.description, maxLines: 3),
+                              SizedBox(height: 10),
+                              Text(
+                                dataNews.source.name,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             );

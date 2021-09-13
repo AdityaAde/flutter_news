@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsapp/bloc/everything_news/news_bloc.dart';
-
 import 'package:newsapp/models/news_models.dart';
-import 'package:newsapp/pages/detail_everything.dart';
 import 'package:newsapp/widgets/loading.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EverythingNews extends StatefulWidget {
   @override
@@ -19,7 +18,8 @@ class _EverythingNewsState extends State<EverythingNews> {
     _newsBloc.add(GetNewsList());
   }
 
-  void _showNewsArticleDetail(BuildContext context, Article nm) {
+  //detailScreen
+  /* void _showNewsArticleDetail(BuildContext context, Article nm) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -28,7 +28,7 @@ class _EverythingNewsState extends State<EverythingNews> {
         },
       ),
     );
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,6 @@ class _EverythingNewsState extends State<EverythingNews> {
           }
         },
         child: BlocBuilder<NewsBloc, NewsState>(
-          // ignore: missing_return
           builder: (context, state) {
             if (state is NewsInitial) {
               return isLoading();
@@ -54,6 +53,7 @@ class _EverythingNewsState extends State<EverythingNews> {
             } else if (state is NewsError) {
               print('error di news horizontal');
             }
+            return Container();
           },
         ),
       ),
@@ -68,10 +68,10 @@ class _EverythingNewsState extends State<EverythingNews> {
           itemCount: news.articles.length,
           itemBuilder: (context, i) {
             final dataNews = news.articles[i];
-
             return InkWell(
-              onTap: () {
-                _showNewsArticleDetail(context, dataNews);
+              onTap: () async {
+                await launch(dataNews.url,
+                    forceWebView: true, enableJavaScript: true);
               },
               child: Card(
                 shadowColor: Colors.black,
