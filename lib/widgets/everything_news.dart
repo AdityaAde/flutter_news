@@ -50,10 +50,9 @@ class _EverythingNewsState extends State<EverythingNews> {
               return isLoading();
             } else if (state is NewsLoaded) {
               return dataNewsHorizontal(state.newsModel);
-            } else if (state is NewsError) {
-              print('error di news horizontal');
+            } else {
+              return isLoading();
             }
-            return Container();
           },
         ),
       ),
@@ -64,60 +63,61 @@ class _EverythingNewsState extends State<EverythingNews> {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.4,
       child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: news.articles.length,
-          itemBuilder: (context, i) {
-            final dataNews = news.articles[i];
-            return InkWell(
-              onTap: () async {
-                await launch(dataNews.url,
-                    forceWebView: true, enableJavaScript: true);
-              },
-              child: Card(
-                shadowColor: Colors.black,
-                elevation: 8,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Container(
-                  width: 300,
-                  height: 100,
-                  child: Column(
-                    children: [
-                      Expanded(
-                          flex: 3,
-                          child: ClipRRect(
-                            child: Image.network(
-                              dataNews.urlToImage,
-                              fit: BoxFit.cover,
-                            ),
-                          )),
-                      SizedBox(height: 20),
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.only(left: 8, right: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                dataNews.title,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+              scrollDirection: Axis.horizontal,
+              itemCount: news.articles.length,
+              itemBuilder: (context, i) {
+                final dataNews = news.articles[i];
+                return InkWell(
+                  onTap: () async {
+                    await launch(dataNews.url,
+                        forceWebView: true, enableJavaScript: true);
+                  },
+                  child: Card(
+                    shadowColor: Colors.black,
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Container(
+                      width: 300,
+                      height: 100,
+                      child: Column(
+                        children: [
+                          Expanded(
+                              flex: 3,
+                              child: ClipRRect(
+                                child: Image.network(
+                                  dataNews.urlToImage,
+                                  fit: BoxFit.cover,
                                 ),
-                                maxLines: 2,
+                              )),
+                          SizedBox(height: 20),
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.only(left: 8, right: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    dataNews.title,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    maxLines: 2,
+                                  ),
+                                  SizedBox(height: 15),
+                                ],
                               ),
-                              SizedBox(height: 15),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            );
-          }),
+                );
+              }) ??
+          Container(),
     );
   }
 }
