@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsapp/bloc/trending_news/newstrending_bloc.dart';
 import 'package:newsapp/models/trending_news.dart';
 import 'package:newsapp/widgets/loading.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class TrendingNews extends StatefulWidget {
   @override
@@ -57,10 +57,7 @@ class _TrendingNewsState extends State<TrendingNews> {
               itemBuilder: (context, i) {
                 final dataNews = news.articles[i];
                 return InkWell(
-                  onTap: () async {
-                    await launch(dataNews.url,
-                        forceWebView: true, enableJavaScript: true);
-                  },
+                  onTap: () => openUrl(dataNews.url),
                   child: Card(
                     shadowColor: Colors.black,
                     elevation: 8,
@@ -91,9 +88,7 @@ class _TrendingNewsState extends State<TrendingNews> {
                                 children: [
                                   Text(
                                     dataNews.title,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                   ),
@@ -102,8 +97,7 @@ class _TrendingNewsState extends State<TrendingNews> {
                                   SizedBox(height: 10),
                                   Text(
                                     dataNews.source.name,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),
@@ -117,5 +111,9 @@ class _TrendingNewsState extends State<TrendingNews> {
               }) ??
           Container(),
     );
+  }
+
+  static Future<void> openUrl(String url) async {
+    await launchUrlString(url);
   }
 }

@@ -2,6 +2,7 @@
     package="com.example.newsapp">
   <uses-permission android:name="android.permission.INTERNET" />
    <application
+        android:usesCleartextTraffic="true"
         android:label="newsapp"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -38,6 +39,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+            
     </application>
  
 </manifest>

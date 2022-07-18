@@ -18,18 +18,6 @@ class _EverythingNewsState extends State<EverythingNews> {
     _newsBloc.add(GetNewsList());
   }
 
-  //detailScreen
-  /* void _showNewsArticleDetail(BuildContext context, Article nm) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) {
-          return DetailNews(detailNews: nm);
-        },
-      ),
-    );
-  } */
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -69,8 +57,7 @@ class _EverythingNewsState extends State<EverythingNews> {
                 final dataNews = news.articles[i];
                 return InkWell(
                   onTap: () async {
-                    await launch(dataNews.url,
-                        forceWebView: true, enableJavaScript: true);
+                    await launch(dataNews.url, forceWebView: true, enableJavaScript: true);
                   },
                   child: Card(
                     shadowColor: Colors.black,
